@@ -3,6 +3,13 @@ import { db } from "../db";
 import QRCode from "qrcode";
 import { tickets } from "../db/schema";
 
+export const renderNewTicketForm = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  res.render("newTicket");
+};
+
 export const createTicket = async (
   req: Request,
   res: Response

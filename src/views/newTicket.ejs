@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>New loto ticket</title>
+  </head>
+  <body>
+    <h1>Create a new loto ticket</h1>
+    <form action="/tickets/create" method="POST">
+      <label for="idNumber">Identification (ID or passport):</label>
+      <input
+        type="text"
+        id="idNumber"
+        name="idNumber"
+        placeholder="DMAO29HF310N9UX"
+        required
+      />
+      <br /><br />
+
+      <label for="numbers"
+        >Numbers (input 6 to 10 comma seperated numbers in range from 1 to 45
+        (including 1 and 45)):</label
+      >
+      <input
+        type="text"
+        id="numbers"
+        name="numbers"
+        placeholder="1,2,3,4,5,6,7"
+        required
+      />
+      <br /><br />
+
+      <button id="submitButton" type="submit">Submit</button>
+    </form>
+  </body>
+</html>
