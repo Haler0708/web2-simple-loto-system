@@ -31,8 +31,9 @@ export const createTicket = async (
       width: 300,
     });
 
-    res.setHeader("Content-Type", "image/png");
-    res.status(201).send(qrBuffer);
+    res
+      .status(201)
+      .render("ticketQrCode", { image: qrBuffer.toString("base64") });
     return;
   } catch (err) {
     console.error("Error with ticket creation.", err);
