@@ -12,6 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use("/tickets", ticketsRouter);
 
 app.listen(PORT, () =>
   console.log(`Server running at http://localhost:${PORT}`)
