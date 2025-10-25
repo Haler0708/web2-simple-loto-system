@@ -7,6 +7,7 @@ import { auth0Init } from "./utils/auth.utils";
 import authRouter from "./routes/auth";
 import https from "https";
 import fs from "fs";
+import { renderHome } from "./controllers/homeController";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(auth0Init);
 
 app.use("/tickets", ticketsRouter);
 app.use("/auth", authRouter);
+app.get("/", renderHome);
 
 const sslOptions = {
   key: fs.readFileSync(path.join(__dirname, "../local-cert/server.key")),

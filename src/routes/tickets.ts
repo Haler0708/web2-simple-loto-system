@@ -4,10 +4,11 @@ import {
   renderNewTicketForm,
 } from "../controllers/ticketsController";
 import { validateInputs } from "../utils/tickets.utils";
+import { requiresAuth } from "express-openid-connect";
 
 const ticketsRouter = express.Router();
 
-ticketsRouter.get("/", renderNewTicketForm);
+ticketsRouter.get("/", requiresAuth(), renderNewTicketForm);
 
 ticketsRouter.post("/create", validateInputs, createTicket);
 
