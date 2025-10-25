@@ -8,6 +8,8 @@ import authRouter from "./routes/auth";
 import https from "https";
 import fs from "fs";
 import { renderHome } from "./controllers/homeController";
+import resultsRouter from "./routes/results";
+import roundsRouter from "./routes/rounds";
 
 dotenv.config();
 
@@ -25,6 +27,8 @@ app.use(auth0Init);
 
 app.use("/tickets", ticketsRouter);
 app.use("/auth", authRouter);
+app.use("/results", resultsRouter);
+app.use("/rounds", roundsRouter);
 app.get("/", renderHome);
 
 const sslOptions = {
