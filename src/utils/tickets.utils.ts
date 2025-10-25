@@ -13,9 +13,7 @@ export const validateInputs = (
   if (idNumber.length > 20) {
     res
       .status(400)
-      .send(
-        "Provide OIB or a passport identification number that is 20 characters at most."
-      );
+      .send("Provide ID or a passport number that is 20 characters at most.");
     return;
   }
 
@@ -31,7 +29,7 @@ export const validateInputs = (
   const numbersArrayHasStrings = stringsInNumbersArray.length > 0;
 
   if (numbersArrayHasStrings) {
-    res.status(400).send("Input 6 to 10 numbers.");
+    res.status(400).send("Input only numbers seperated by commas.");
     return;
   }
 
