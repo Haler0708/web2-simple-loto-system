@@ -2,6 +2,9 @@ import { Request, Response } from "express";
 import { db } from "../db";
 import QRCode from "qrcode";
 import { tickets } from "../db/schema";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const renderNewTicketForm = async (
   req: Request,
@@ -14,17 +17,21 @@ export const createTicket = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { idNumber, numbers } = req.body as {
+  const { idNumber, numbers, roundId } = req.body as {
     idNumber: string;
     numbers: Array<number>;
+    roundId: number;
   };
 
   try {
     const ticket = (
-      await db.insert(tickets).values({ idNumber, numbers }).returning()
+      await db
+        .insert(tickets)
+        .values({ idNumber, numbers, roundId })
+        .returning()
     )[0];
 
-    const ticketUrl = `http://localhost:3000/result/${ticket.uuid}`;
+    const ticketUrl = `${process.env.BASE_URL}/results/${ticket.uuid}`;
 
     const qrBuffer = await QRCode.toBuffer(ticketUrl, {
       type: "png",

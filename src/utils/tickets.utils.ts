@@ -1,4 +1,31 @@
 import { NextFunction, Request, Response } from "express";
+import { rounds } from "../db/schema";
+import { db } from "../db";
+import { and, eq, isNull } from "drizzle-orm";
+
+export const validateRoundExistance = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const round = (
+    await db
+      .select()
+      .from(rounds)
+      .where(and(isNull(rounds.closedAt), isNull(rounds.drawnNumbers)))
+  )[0];
+
+  if (!round) {
+    res
+      .status(400)
+      .send("The round is closed now so no tickets can be created.");
+    return;
+  }
+
+  req.body.roundId = round.id;
+
+  next();
+};
 
 export const validateInputs = (
   req: Request,
