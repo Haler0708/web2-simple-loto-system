@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { rounds, tickets, ticketsRelations } from "../db/schema";
 import { db } from "../db";
 import { eq } from "drizzle-orm";
+import { getDrawnNumbersMessage } from "../utils/results.utils";
 
 export const renderResults = async (
   req: Request,
@@ -28,40 +29,4 @@ export const renderResults = async (
     resultMessage,
     numbers: ticket.numbers,
   });
-};
-
-const getDrawnNumbersMessage = (
-  ticket: typeof tickets.$inferSelect & {
-    rounds: typeof rounds.$inferSelect | null;
-  }
-) => {
-  if (!ticket.rounds?.closedAt) {
-    return {
-      drawnNumbersMessage: "The round is not closed yet.",
-      resultsMessage: "",
-    };
-  }
-
-  if (ticket.rounds?.closedAt && !ticket.rounds?.drawnNumbers) {
-    return {
-      drawnNumbersMessage:
-        "The round is closed but the numbers haven't been drawn yet.",
-      resultsMessage: "",
-    };
-  }
-
-  const drawnNumbers = ticket.rounds.drawnNumbers ?? [];
-
-  const areDrawnAndTicketNumbersSame = ticket.numbers.every((tn) =>
-    drawnNumbers.includes(tn)
-  );
-
-  const resultMessage = areDrawnAndTicketNumbersSame
-    ? "Congrats! Yours and drawn numbers match."
-    : "Better luck with the next ticket.";
-
-  return {
-    drawnNumbersMessage: `The drawn numbers for this round: ${drawnNumbers}`,
-    resultMessage,
-  };
 };
