@@ -10,7 +10,7 @@ import {
 
 export const tickets = pgTable("tickets", {
   uuid: uuid("uuid").primaryKey().defaultRandom(),
-  idNumber: text("idNumber").notNull(), // broj osoblne ili putovnice
+  idNumber: text("idNumber").notNull(),
   numbers: integer("numbers").array().notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   roundId: integer("roundId").references(() => rounds.id),
