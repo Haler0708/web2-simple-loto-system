@@ -22,13 +22,6 @@
       "when": 1761430266396,
       "tag": "0002_rainy_tombstone",
       "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1761482516319,
-      "tag": "0003_modern_skin",
-      "breakpoints": true
     }
   ]
 }

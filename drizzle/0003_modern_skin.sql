@@ -1,1 +1,0 @@
-ALTER TABLE "rounds" ALTER COLUMN "id" SET DATA TYPE serial;
