@@ -6,13 +6,12 @@
   </head>
   <body>
     <h1>Welcome <%= user %> to a simple Loto System for FER's WEB2 - LAB1</h1>
-    <a href="https://localhost:8443/auth">Login(Authenticate)</a>
+    <a href="<%= authButton.href %>"><%= authButton.text %></a>
     <br />
-    <a href="https://localhost:8443/auth/logout">Logout</a>
-    <br />
-    <a href="https://localhost:8443/tickets"
-      >Create a new ticket (Auth required)</a
-    >
-    <br />
+    <% if (ticketsElement.href) { %>
+    <a href="<%= ticketsElement.href %>"><%= ticketsElement.text %></a>
+    <% } else { %>
+    <p><%= ticketsElement.text %></p>
+    <% } %>
   </body>
 </html>

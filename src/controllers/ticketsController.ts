@@ -31,7 +31,9 @@ export const createTicket = async (
         .returning()
     )[0];
 
-    const ticketUrl = `${process.env.BASE_URL}/results/${ticket.uuid}`;
+    const homeUrl = process.env.BASE_URL;
+
+    const ticketUrl = `${homeUrl}/results/${ticket.uuid}`;
 
     const qrBuffer = await QRCode.toBuffer(ticketUrl, {
       type: "png",
@@ -40,7 +42,7 @@ export const createTicket = async (
 
     res
       .status(201)
-      .render("ticketQrCode", { image: qrBuffer.toString("base64") });
+      .render("ticketQrCode", { image: qrBuffer.toString("base64"), homeUrl });
     return;
   } catch (err) {
     console.error("Error with ticket creation.", err);
