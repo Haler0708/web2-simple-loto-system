@@ -16,13 +16,13 @@
     "drizzle-orm": "^0.44.6",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "express-oauth2-jwt-bearer": "^1.7.1",
     "express-openid-connect": "^2.19.2",
     "pg": "^8.16.3",
     "qrcode": "^1.5.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
-    "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.3",
     "@types/node": "^24.9.1",
     "@types/pg": "^8.15.5",

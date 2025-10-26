@@ -1,17 +1,14 @@
 import express from "express";
 import {
-  createTicket,
-  renderNewTicketForm,
-} from "../controllers/ticketsController";
-import { validateInputs } from "../utils/tickets.utils";
-import { requiresAuth } from "express-openid-connect";
-import {
   closeExistingRound,
   drawExistingRoundNumbers,
   openNewRound,
 } from "../controllers/roundsController";
+import { roundsJwtValidation } from "../utils/auth.utils";
 
 const roundsRouter = express.Router();
+
+roundsRouter.use(roundsJwtValidation);
 
 roundsRouter.post("/new-round", openNewRound);
 
