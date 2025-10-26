@@ -8,17 +8,19 @@ export const openNewRound = async (
   res: Response
 ): Promise<void> => {
   try {
-    const openRoundExists = await db
-      .select()
-      .from(rounds)
-      .where(
-        and(
-          isNotNull(rounds.createdAt),
-          or(isNull(rounds.closedAt), isNull(rounds.drawnNumbers))
+    const openRoundExists = (
+      await db
+        .select()
+        .from(rounds)
+        .where(
+          and(
+            isNotNull(rounds.createdAt),
+            or(isNull(rounds.closedAt), isNull(rounds.drawnNumbers))
+          )
         )
-      );
+    )[0];
 
-    if (!!openRoundExists) {
+    if (openRoundExists) {
       res.status(204).send("An open round already exists.");
       return;
     }
