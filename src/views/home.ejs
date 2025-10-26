@@ -8,6 +8,8 @@
     <h1>Welcome <%= user %> to a simple Loto System for FER's WEB2 - LAB1</h1>
     <a href="<%= authButton.href %>"><%= authButton.text %></a>
     <br />
+    <p><%= ticketInCurrentRoundText %></p>
+    <p><%= drawnNumbersInTheLatestRoundText %></p>
     <% if (ticketsElement.href) { %>
     <a href="<%= ticketsElement.href %>"><%= ticketsElement.text %></a>
     <% } else { %>
