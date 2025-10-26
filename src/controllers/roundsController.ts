@@ -63,13 +63,13 @@ export const drawExistingRoundNumbers = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { drawnNumbers } = req.body as { drawnNumbers: number[] };
+  const { numbers } = req.body as { numbers: number[] };
 
   try {
     const round = (
       await db
         .update(rounds)
-        .set({ drawnNumbers })
+        .set({ drawnNumbers: numbers })
         .where(
           and(
             isNotNull(rounds.createdAt),
