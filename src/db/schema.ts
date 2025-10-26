@@ -29,3 +29,7 @@ export const ticketsRelations = relations(tickets, ({ one }) => ({
     references: [rounds.id],
   }),
 }));
+
+export const roundsRelations = relations(rounds, ({ many }) => ({
+  tickets: many(tickets),
+}));
