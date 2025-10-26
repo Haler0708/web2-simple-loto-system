@@ -48,7 +48,7 @@ export const closeExistingRound = async (
         .returning()
     )[0];
 
-    if (round) {
+    if (!round) {
       res.status(204).send("The round is already closed.");
       return;
     }
