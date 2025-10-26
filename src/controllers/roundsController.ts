@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { rounds } from "../db/schema";
 import { db } from "../db";
-import { and, eq, isNotNull, isNull, or } from "drizzle-orm";
+import { and, isNotNull, isNull, or } from "drizzle-orm";
 
 export const openNewRound = async (
   req: Request,
@@ -19,7 +19,7 @@ export const openNewRound = async (
       );
 
     if (!!openRoundExists) {
-      res.status(400).send("An open round already exists.");
+      res.status(204).send("An open round already exists.");
       return;
     }
 
@@ -46,8 +46,8 @@ export const closeExistingRound = async (
         .returning()
     )[0];
 
-    if (!round) {
-      res.status(400).send("No open round found.");
+    if (round) {
+      res.status(204).send("The round is already closed.");
       return;
     }
 
@@ -81,11 +81,13 @@ export const drawExistingRoundNumbers = async (
     )[0];
 
     if (!round) {
-      res.status(400).send("Numbers already drawn.");
+      res
+        .status(400)
+        .send("Numbers already drawn or the round is not closed yet.");
       return;
     }
 
-    res.status(200).json({ round });
+    res.status(204).json({ round });
     return;
   } catch (err) {
     console.error("Error with drawn numbers update.", err);

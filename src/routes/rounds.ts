@@ -15,8 +15,8 @@ const roundsRouter = express.Router();
 
 roundsRouter.post("/new-round", openNewRound);
 
-roundsRouter.patch("/close", closeExistingRound);
+roundsRouter.post("/close", closeExistingRound);
 
-roundsRouter.patch("/store-results", drawExistingRoundNumbers);
+roundsRouter.post("/store-results", drawExistingRoundNumbers);
 
 export default roundsRouter;
