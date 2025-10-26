@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { rounds } from "../db/schema";
 import { db } from "../db";
-import { and, eq, isNull } from "drizzle-orm";
+import { and, isNull } from "drizzle-orm";
 
 export const validateRoundExistance = async (
   req: Request,
