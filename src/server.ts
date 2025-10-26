@@ -31,11 +31,18 @@ app.use("/results", resultsRouter);
 app.use("/rounds", roundsRouter);
 app.get("/", renderHome);
 
-const sslOptions = {
-  key: fs.readFileSync(path.join(__dirname, "../local-cert/server.key")),
-  cert: fs.readFileSync(path.join(__dirname, "../local-cert/server.cert")),
-};
+const isLocalDevelopment = process.env.LOCAL_ENVIRONMENT || false;
 
-https.createServer(sslOptions, app).listen(PORT, () => {
-  console.log(`✅ HTTPS server running at https://localhost:${PORT}`);
-});
+if (isLocalDevelopment) {
+  const sslOptions = {
+    key: fs.readFileSync(path.join(__dirname, "../local-cert/server.key")),
+    cert: fs.readFileSync(path.join(__dirname, "../local-cert/server.cert")),
+  };
+  https.createServer(sslOptions, app).listen(PORT, () => {
+    console.log(`✅ HTTPS server running at https://localhost:${PORT}`);
+  });
+} else {
+  app.listen(PORT, () =>
+    console.log(`✅ HTTPS server running on port ${PORT}`)
+  );
+}

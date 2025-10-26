@@ -13,8 +13,8 @@ export const renderHome = async (
   const isLoggedIn = req.oidc.user;
 
   const authButton = isLoggedIn
-    ? { href: `${process.env.BASE_URL}/auth/logout`, text: "Logout" }
-    : { href: `${process.env.BASE_URL}/auth`, text: "Login" };
+    ? { href: `/auth/logout`, text: "Logout" }
+    : { href: `/auth`, text: "Login" };
 
   const latestRound = await db.query.rounds.findFirst({
     orderBy: (rounds, { desc }) => [desc(rounds.id)],

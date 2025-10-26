@@ -5,7 +5,7 @@ export const getTicketsElementContent = (
   if (isLoggedIn) {
     if (roundOpen)
       return {
-        href: `${process.env.BASE_URL}/tickets`,
+        href: `/tickets`,
         text: "Create New Ticket",
       };
     return {
