@@ -39,10 +39,8 @@ if (isLocalDevelopment) {
     cert: fs.readFileSync(path.join(__dirname, "../local-cert/server.cert")),
   };
   https.createServer(sslOptions, app).listen(PORT, () => {
-    console.log(`✅ HTTPS server running at https://localhost:${PORT}`);
+    console.log(`HTTPS server running at https://localhost:${PORT}`);
   });
 } else {
-  app.listen(PORT, () =>
-    console.log(`✅ HTTPS server running on port ${PORT}`)
-  );
+  app.listen(PORT, () => console.log(`HTTPS server running on port ${PORT}`));
 }
