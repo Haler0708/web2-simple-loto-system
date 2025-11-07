@@ -24,6 +24,14 @@
         > input {
           font-size: 25px;
         }
+
+        > button {
+          font-size: 25px;
+        }
+      }
+
+      #sqlInjectionResult {
+        font-size: 25px;
       }
     }
 
@@ -39,14 +47,31 @@
     <br />
     <section>
       <h1><u>SQL Injection</u></h1>
-      <form>
+      <form action="/security/submitUsername" method="POST">
         <label for="sqlInjectionSwitch">SQL Injection Enabled: </label>
-        <input id="sqlInjectionSwitch" type="checkbox" />
+        <input
+          id="sqlInjectionSwitch"
+          name="sqlInjectionSwitch"
+          type="checkbox"
+          checked="<%= sqlInjectionSwitch ? 'checked' : '' %>"
+        />
         <br />
         <br />
         <label for="usernameInput">Username: </label>
-        <input id="usernameInput" />
+        <input
+          id="usernameInput"
+          name="username"
+          value="<%= username ? username : '' %>"
+        />
+        <br />
+        <br />
+        <button id="sqlInjectionButton" type="submit">Submit</button>
       </form>
+      <div id="sqlInjectionResult">
+        <% if (username) { %>
+        <p>Hello, <%= username %></p>
+        <% } %>
+      </div>
     </section>
     <hr />
     <section>
@@ -64,6 +89,11 @@
         <br />
         <button id="brokenAuthenticationButton" type="submit">Submit</button>
       </form>
+      <div>
+        <% if (password) { %>
+        <p>Authenticated with password: <%= password %></p>
+        <% } %>
+      </div>
     </section>
     <br />
     <br />
