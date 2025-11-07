@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import dotenv from "dotenv";
+import { db } from "../db";
+import { users } from "../db/schema";
+import { hashPassword } from "../utils/security.utils";
 
 dotenv.config();
 
@@ -26,4 +29,22 @@ export const submitUsername = async (
   res
     .status(200)
     .render("security", { username, sqlInjectionSwitch, password: null });
+};
+
+export const createUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    res.status(400).send("Username or password not good.");
+    return;
+  }
+
+  const hashedPassword = await hashPassword(password);
+
+  await db.insert(users).values({ username, password: hashedPassword });
+
+  res.status(201).send("New user created.");
 };

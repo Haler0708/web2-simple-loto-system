@@ -33,3 +33,10 @@ export const ticketsRelations = relations(tickets, ({ one }) => ({
 export const roundsRelations = relations(rounds, ({ many }) => ({
   tickets: many(tickets),
 }));
+
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  username: text("username").notNull(),
+  password: text("password").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
