@@ -31,7 +31,7 @@ export const submitUsername = async (
   console.log(queryResult);
 
   res.status(200).render("security", {
-    username: queryResult.length > 0 ? JSON.stringify(queryResult) : "Unknwon",
+    username: queryResult.length > 0 ? JSON.stringify(queryResult) : "Unknown",
     sqlInjectionSwitch,
     password: null,
   });
