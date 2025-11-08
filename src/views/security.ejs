@@ -53,12 +53,20 @@
       <h1><u>SQL Injection</u></h1>
       <form action="/security/submitUsername" method="POST">
         <label for="sqlInjectionSwitch">SQL Injection Enabled: </label>
+        <% if (sqlInjectionSwitch) { %>
         <input
           id="sqlInjectionSwitch"
           name="sqlInjectionSwitch"
           type="checkbox"
-          checked="<%= sqlInjectionSwitch ? 'checked' : '' %>"
+          checked
         />
+        <% } else { %>
+        <input
+          id="sqlInjectionSwitch"
+          name="sqlInjectionSwitch"
+          type="checkbox"
+        />
+        <% } %>
         <br />
         <br />
         <label for="usernameInput">Username: </label>
