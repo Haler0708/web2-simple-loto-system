@@ -33,6 +33,10 @@
       #sqlInjectionResult {
         font-size: 25px;
       }
+
+      #unknownUsername {
+        color: red;
+      }
     }
 
     a {
@@ -61,15 +65,17 @@
         <input
           id="usernameInput"
           name="username"
-          value="<%= username ? username : '' %>"
+          value="<%= username && username !== 'Unknown' ? username : '' %>"
         />
         <br />
         <br />
         <button id="sqlInjectionButton" type="submit">Submit</button>
       </form>
       <div id="sqlInjectionResult">
-        <% if (username) { %>
+        <% if (username && username !== 'Unknown') { %>
         <p>Hello, <%= username %></p>
+        <% } else if (username === 'Unknown') { %>
+        <p id="unknownUsername">Unknown username</p>
         <% } %>
       </div>
     </section>

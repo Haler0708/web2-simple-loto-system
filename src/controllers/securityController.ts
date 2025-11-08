@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import dotenv from "dotenv";
 import { db } from "../db";
 import { users } from "../db/schema";
-import { hashPassword } from "../utils/security.utils";
+import { hashPassword, queryForUsername } from "../utils/security.utils";
 
 dotenv.config();
 
@@ -26,9 +26,15 @@ export const submitUsername = async (
   console.log(username);
   console.log(sqlInjectionSwitch);
 
-  res
-    .status(200)
-    .render("security", { username, sqlInjectionSwitch, password: null });
+  const queryResult = await queryForUsername(username, !!sqlInjectionSwitch);
+
+  console.log(queryResult);
+
+  res.status(200).render("security", {
+    username: queryResult.length > 0 ? JSON.stringify(queryResult) : "Unknwon",
+    sqlInjectionSwitch,
+    password: null,
+  });
 };
 
 export const createUser = async (
