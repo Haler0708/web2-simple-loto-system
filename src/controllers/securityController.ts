@@ -23,12 +23,7 @@ export const submitUsername = async (
 ): Promise<void> => {
   const { username, sqlInjectionSwitch } = req.body;
 
-  console.log(username);
-  console.log(sqlInjectionSwitch);
-
   const queryResult = await queryForUsername(username, !!sqlInjectionSwitch);
-
-  console.log(queryResult);
 
   res.status(200).render("security", {
     username: queryResult.length > 0 ? JSON.stringify(queryResult) : "Unknown",
