@@ -10,6 +10,7 @@ export const renderNewTicketForm = async (
   req: Request,
   res: Response
 ): Promise<void> => {
+  console.log(req.ip);
   res.render("newTicket");
 };
 
@@ -38,12 +39,10 @@ export const createTicket = async (
       width: 300,
     });
 
-    res
-      .status(201)
-      .render("ticketQrCode", {
-        image: qrBuffer.toString("base64"),
-        homeUrl: "/",
-      });
+    res.status(201).render("ticketQrCode", {
+      image: qrBuffer.toString("base64"),
+      homeUrl: "/",
+    });
     return;
   } catch (err) {
     console.error("Error with ticket creation.", err);
