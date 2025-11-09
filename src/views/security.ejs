@@ -90,22 +90,39 @@
     <hr />
     <section>
       <h1><u>Broken Authentication</u></h1>
-      <form>
+      <form action="/security/login" method="POST">
         <label for="brokenAuthenticationSwitch"
           >Broken Authentication Enabled:
         </label>
-        <input id="brokenAuthenticationSwitch" type="checkbox" />
+        <% if (brokenAuthenticationSwitch) { %>
+        <input
+          id="brokenAuthenticationSwitch"
+          name="brokenAuthenticationSwitch"
+          type="checkbox"
+          checked
+        />
+        <% } else { %>
+        <input
+          id="brokenAuthenticationSwitch"
+          name="brokenAuthenticationSwitch"
+          type="checkbox"
+        />
+        <% } %>
+        <br />
+        <br />
+        <label for="usernameInput">Username: </label>
+        <input id="usernameInput" name="username" />
         <br />
         <br />
         <label for="passwordInput">Password: </label>
-        <input id="passwordInput" />
+        <input id="passwordInput" name="password" />
         <br />
         <br />
         <button id="brokenAuthenticationButton" type="submit">Submit</button>
       </form>
       <div>
-        <% if (password) { %>
-        <p>Authenticated with password: <%= password %></p>
+        <% if (badAuthSectionMessage) { %>
+        <p><%= badAuthSectionMessage %></p>
         <% } %>
       </div>
     </section>

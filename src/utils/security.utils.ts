@@ -1,4 +1,4 @@
-import { genSalt, hash } from "bcrypt";
+import { genSalt, hash, compare } from "bcrypt";
 import { db } from "../db";
 import { eq, sql } from "drizzle-orm";
 import { users } from "../db/schema";
@@ -22,4 +22,11 @@ export const queryForUsername = async (
     ).rows;
 
   return await db.select().from(users).where(eq(users.username, username));
+};
+
+export const isPasswordValid = async (
+  password: string,
+  hashedPassword: string
+) => {
+  return await compare(password, hashedPassword);
 };
