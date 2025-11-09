@@ -7,6 +7,7 @@ import {
   hashPassword,
   isPasswordValid,
   queryForUsername,
+  updateLoginIpsTable,
 } from "../utils/security.utils";
 import { eq } from "drizzle-orm";
 
@@ -172,6 +173,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   });
 
   if (!user) {
+    await updateLoginIpsTable(loginIp, ip!);
+
     res.status(200).render("security", {
       username: null,
       sqlInjectionSwitch: null,
@@ -186,27 +189,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   const passwordValid = await isPasswordValid(password, user.password);
 
   if (!passwordValid) {
-    if (!loginIp) {
-      await db.insert(loginIps).values({
-        ipAddress: ip!,
-        failedTries: 1,
-      });
-    } else {
-      if (loginIp.failedTries >= 4) {
-        await db
-          .update(loginIps)
-          .set({
-            failedTries: 5,
-            blockedAt: Number(Date.now()),
-          })
-          .where(eq(loginIps.ipAddress, loginIp.ipAddress));
-      } else {
-        await db
-          .update(loginIps)
-          .set({ failedTries: loginIp.failedTries + 1 })
-          .where(eq(loginIps.ipAddress, loginIp.ipAddress));
-      }
-    }
+    await updateLoginIpsTable(loginIp, ip!);
 
     res.status(200).render("security", {
       username: null,

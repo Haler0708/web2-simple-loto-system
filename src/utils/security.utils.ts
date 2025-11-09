@@ -44,3 +44,30 @@ export const checkIfTimeoutPassed = (
 
   return true;
 };
+
+export const updateLoginIpsTable = async (
+  loginIpsEntry: typeof loginIps.$inferSelect | null | undefined,
+  ip: string
+) => {
+  if (!loginIpsEntry) {
+    await db.insert(loginIps).values({
+      ipAddress: ip!,
+      failedTries: 1,
+    });
+  } else {
+    if (loginIpsEntry.failedTries >= 4) {
+      await db
+        .update(loginIps)
+        .set({
+          failedTries: 5,
+          blockedAt: Number(Date.now()),
+        })
+        .where(eq(loginIps.ipAddress, loginIpsEntry.ipAddress));
+    } else {
+      await db
+        .update(loginIps)
+        .set({ failedTries: loginIpsEntry.failedTries + 1 })
+        .where(eq(loginIps.ipAddress, loginIpsEntry.ipAddress));
+    }
+  }
+};
