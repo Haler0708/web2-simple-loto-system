@@ -19,6 +19,9 @@ export const renderSecurity = async (
     username: null,
     password: null,
     sqlInjectionSwitch: null,
+    brokenAuthenticationSwitch: null,
+    badAuthSectionMessage: null,
+    badAuthUser: null,
   });
 };
 
@@ -34,6 +37,9 @@ export const submitUsername = async (
     username: queryResult.length > 0 ? JSON.stringify(queryResult) : "Unknown",
     sqlInjectionSwitch,
     password: null,
+    brokenAuthenticationSwitch: null,
+    badAuthUser: null,
+    badAuthSectionMessage: null,
   });
 };
 
