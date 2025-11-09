@@ -63,7 +63,6 @@ export const createUser = async (
 };
 
 export const login = async (req: Request, res: Response): Promise<void> => {
-  console.log(req.body);
   const { username, password, brokenAuthenticationSwitch } = req.body;
 
   if (!!brokenAuthenticationSwitch) {
@@ -185,10 +184,6 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   }
 
   const passwordValid = await isPasswordValid(password, user.password);
-
-  console.log("pv: ", passwordValid);
-  console.log("loginIp: ", loginIp);
-  console.log("ip: ", ip);
 
   if (!passwordValid) {
     if (!loginIp) {
