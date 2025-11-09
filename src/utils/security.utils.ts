@@ -1,7 +1,7 @@
 import { genSalt, hash, compare } from "bcrypt";
 import { db } from "../db";
 import { eq, sql } from "drizzle-orm";
-import { users } from "../db/schema";
+import { loginIps, users } from "../db/schema";
 
 const SALT_ROUNDS = 10;
 
@@ -29,4 +29,18 @@ export const isPasswordValid = async (
   hashedPassword: string
 ) => {
   return await compare(password, hashedPassword);
+};
+
+export const checkIfTimeoutPassed = (
+  loginIpsEntry: typeof loginIps.$inferSelect
+) => {
+  const blockedAt = loginIpsEntry.blockedAt!;
+  const now = Date.now();
+
+  const blockDuration = now - blockedAt;
+  const blockDurationInSeconds = blockDuration / 1000;
+
+  if (blockDurationInSeconds < 60) return false;
+
+  return true;
 };

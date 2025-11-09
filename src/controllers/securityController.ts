@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 import { db } from "../db";
-import { users } from "../db/schema";
+import { loginIps, users } from "../db/schema";
 import {
+  checkIfTimeoutPassed,
   hashPassword,
   isPasswordValid,
   queryForUsername,
@@ -129,6 +130,32 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
+  const { ip } = req;
+  let loginIp: typeof loginIps.$inferSelect | undefined | null =
+    await db.query.loginIps.findFirst({
+      where: eq(loginIps.ipAddress, ip!),
+    });
+
+  if (loginIp?.failedTries === 5) {
+    const hasTimeoutPassed = checkIfTimeoutPassed(loginIp);
+    if (hasTimeoutPassed) {
+      await db
+        .delete(loginIps)
+        .where(eq(loginIps.ipAddress, loginIp.ipAddress));
+      loginIp = null;
+    } else {
+      res.status(200).render("security", {
+        username: null,
+        sqlInjectionSwitch: null,
+        password: null,
+        brokenAuthenticationSwitch: null,
+        badAuthUser: null,
+        badAuthSectionMessage: "You are blocked from trying for a minut.",
+      });
+      return;
+    }
+  }
+
   if (!username || !password) {
     res.status(200).render("security", {
       username: null,
@@ -160,8 +187,32 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   const passwordValid = await isPasswordValid(password, user.password);
 
   console.log("pv: ", passwordValid);
+  console.log("loginIp: ", loginIp);
+  console.log("ip: ", ip);
 
   if (!passwordValid) {
+    if (!loginIp) {
+      await db.insert(loginIps).values({
+        ipAddress: ip!,
+        failedTries: 1,
+      });
+    } else {
+      if (loginIp.failedTries >= 4) {
+        await db
+          .update(loginIps)
+          .set({
+            failedTries: 5,
+            blockedAt: Number(Date.now()),
+          })
+          .where(eq(loginIps.ipAddress, loginIp.ipAddress));
+      } else {
+        await db
+          .update(loginIps)
+          .set({ failedTries: loginIp.failedTries + 1 })
+          .where(eq(loginIps.ipAddress, loginIp.ipAddress));
+      }
+    }
+
     res.status(200).render("security", {
       username: null,
       sqlInjectionSwitch: null,
