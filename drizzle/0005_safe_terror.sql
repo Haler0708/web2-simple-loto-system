@@ -1,0 +1,1 @@
+ALTER TABLE "loginIps" ALTER COLUMN "blockedAt" SET DATA TYPE bigint;

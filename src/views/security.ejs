@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Security Vulnerabilities</title>
+  </head>
+  <style>
+    section {
+      width: 100%;
+
+      margin-bottom: 100px;
+
+      text-align: center;
+
+      > h1 {
+        font-size: 40px;
+      }
+
+      > form {
+        width: 100%;
+
+        font-size: 30px;
+
+        > input {
+          font-size: 25px;
+        }
+
+        > button {
+          font-size: 25px;
+        }
+      }
+
+      #sqlInjectionResult {
+        font-size: 25px;
+      }
+
+      #unknownUsername {
+        color: red;
+      }
+    }
+
+    a {
+      font-size: 25px;
+    }
+  </style>
+  <body>
+    <h1>
+      Welcome simple security vulneratabilities demonstraton (simulator?) for
+      FER's WEB2 - LAB2
+    </h1>
+    <br />
+    <section>
+      <h1><u>SQL Injection</u></h1>
+      <form action="/security/submitUsername" method="POST">
+        <label for="sqlInjectionSwitch">SQL Injection Enabled: </label>
+        <% if (sqlInjectionSwitch) { %>
+        <input
+          id="sqlInjectionSwitch"
+          name="sqlInjectionSwitch"
+          type="checkbox"
+          checked
+        />
+        <% } else { %>
+        <input
+          id="sqlInjectionSwitch"
+          name="sqlInjectionSwitch"
+          type="checkbox"
+        />
+        <% } %>
+        <br />
+        <br />
+        <label for="usernameInput">Username: </label>
+        <input
+          id="usernameInput"
+          name="username"
+          value="<%= username && username !== 'Unknown' ? username : '' %>"
+        />
+        <br />
+        <br />
+        <button id="sqlInjectionButton" type="submit">Submit</button>
+      </form>
+      <div id="sqlInjectionResult">
+        <% if (username && username !== 'Unknown') { %>
+        <p>Hello, <%= username %></p>
+        <% } else if (username === 'Unknown') { %>
+        <p id="unknownUsername">Unknown username</p>
+        <% } %>
+      </div>
+    </section>
+    <hr />
+    <section>
+      <h1><u>Broken Authentication</u></h1>
+      <form action="/security/login" method="POST">
+        <label for="brokenAuthenticationSwitch"
+          >Broken Authentication Enabled:
+        </label>
+        <% if (brokenAuthenticationSwitch) { %>
+        <input
+          id="brokenAuthenticationSwitch"
+          name="brokenAuthenticationSwitch"
+          type="checkbox"
+          checked
+        />
+        <% } else { %>
+        <input
+          id="brokenAuthenticationSwitch"
+          name="brokenAuthenticationSwitch"
+          type="checkbox"
+        />
+        <% } %>
+        <br />
+        <br />
+        <label for="usernameInput">Username: </label>
+        <input id="usernameInput" name="username" />
+        <br />
+        <br />
+        <label for="passwordInput">Password: </label>
+        <input id="passwordInput" name="password" />
+        <br />
+        <br />
+        <button id="brokenAuthenticationButton" type="submit">Submit</button>
+      </form>
+      <div>
+        <% if (badAuthSectionMessage) { %>
+        <p><%= badAuthSectionMessage %></p>
+        <% } %>
+      </div>
+    </section>
+    <br />
+    <br />
+    <hr />
+    <section>
+      <a href="/">Home</a>
+    </section>
+  </body>
+</html>

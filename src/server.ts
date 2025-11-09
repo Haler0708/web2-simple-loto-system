@@ -10,6 +10,7 @@ import fs from "fs";
 import { renderHome } from "./controllers/homeController";
 import resultsRouter from "./routes/results";
 import roundsRouter from "./routes/rounds";
+import securityRouter from "./routes/security";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use("/tickets", ticketsRouter);
 app.use("/auth", authRouter);
 app.use("/results", resultsRouter);
 app.use("/rounds", roundsRouter);
+app.use("/security", securityRouter);
 app.get("/", renderHome);
 
 const isLocalDevelopment = process.env.LOCAL_ENVIRONMENT || false;

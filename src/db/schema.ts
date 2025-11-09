@@ -6,6 +6,7 @@ import {
   text,
   uuid,
   serial,
+  bigint,
 } from "drizzle-orm/pg-core";
 
 export const tickets = pgTable("tickets", {
@@ -33,3 +34,16 @@ export const ticketsRelations = relations(tickets, ({ one }) => ({
 export const roundsRelations = relations(rounds, ({ many }) => ({
   tickets: many(tickets),
 }));
+
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  username: text("username").notNull(),
+  password: text("password").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const loginIps = pgTable("loginIps", {
+  ipAddress: text("ipAddress").primaryKey(),
+  failedTries: integer("failedTries").notNull(),
+  blockedAt: bigint("blockedAt", { mode: "number" }),
+});

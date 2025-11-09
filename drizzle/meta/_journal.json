@@ -22,6 +22,27 @@
       "when": 1761430266396,
       "tag": "0002_rainy_tombstone",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1762557194090,
+      "tag": "0003_burly_chamber",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1762691486339,
+      "tag": "0004_nifty_shaman",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1762692240927,
+      "tag": "0005_safe_terror",
+      "breakpoints": true
     }
   ]
 }

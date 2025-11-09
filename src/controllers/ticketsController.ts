@@ -10,7 +10,6 @@ export const renderNewTicketForm = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  console.log(req.ip);
   res.render("newTicket");
 };
 
