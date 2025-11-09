@@ -219,6 +219,10 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
+  if (loginIp) {
+    await db.delete(loginIps).where(eq(loginIps.ipAddress, loginIp.ipAddress));
+  }
+
   res.status(200).render("security", {
     username: null,
     sqlInjectionSwitch: null,
