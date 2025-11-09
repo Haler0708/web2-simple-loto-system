@@ -104,7 +104,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const passwordValid = isPasswordValid(password, user.password);
+    const passwordValid = await isPasswordValid(password, user.password);
 
     if (!passwordValid) {
       res.status(200).render("security", {
